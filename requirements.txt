@@ -2,7 +2,7 @@
 ffmpeg==1.4
 ffmpeg-python==0.2.0
 ffprobe==0.5
-opencv-python==4.7.0.68
+#opencv-python==4.7.0.68
 opencv-python-headless==4.8.1.78
 openvino==2024.2.0
 openvino-telemetry==2024.1.0
