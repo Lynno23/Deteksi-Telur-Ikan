@@ -75,7 +75,8 @@ def main():
             for key in counts.keys():
                 text = f"{model.names[key]}: {str(counts[key])}"
 
-      cv2.putText(img, text, (10, 300), font, font_scale, font_color, thickness)
+      #cv2.putText(img, text, (10, 300), font, font_scale, font_color, thickness)
+      cv2.putText(img, text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
       cv2.imwrite(temp_output_path, img)
 
       # Display input and output side-by-side
