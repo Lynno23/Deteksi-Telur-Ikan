@@ -50,12 +50,13 @@ def main():
       temp_output_path = '{}_out.jpg'.format(save_path)
       st.success(f"File {uploaded_file.name} berhasil diunggah ke /uploads")
       img = cv2.imread(save_path)
+      height, width, channels = img.shape
       results = model(img)
 
       font = cv2.FONT_HERSHEY_SIMPLEX
-      font_scale = 10
+      font_scale = height / 1000.0
       font_color = (255, 255, 255)
-      thickness = 10
+      thickness = int(height / 500.0)
       counts = {}
       text = ""
 
@@ -74,9 +75,9 @@ def main():
                 counts[cls] += 1
             for key in counts.keys():
                 text = f"{model.names[key]}: {str(counts[key])}"
-
-      #cv2.putText(img, text, (10, 300), font, font_scale, font_color, thickness)
-      cv2.putText(img, text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                
+      cv2.putText(img, text, (10, 30), font, font_scale, (0,0,0), thickness+10)
+      cv2.putText(img, text, (10, 30), font, font_scale, font_color, thickness)
       cv2.imwrite(temp_output_path, img)
 
       # Display input and output side-by-side
