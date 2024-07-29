@@ -18,24 +18,19 @@ import os
 # Load the exported OpenVINO model
 model = YOLO("best_model_openvino_model/")
 
-def select_camera():
-    # Mencari jumlah kamera yang tersedia
-    num_cameras = 2  # Maksimum dua kamera: index 0 dan 1
+# Function to process each frame of the video stream
+def process_frame(frame):
+    # Read image from the frame with PyAV
+    img = frame.to_ndarray(format="bgr24")
 
-    # Memeriksa kamera eksternal (index 1)
-    cap_external = cv2.VideoCapture(1)
-    if cap_external.isOpened():
-        print("Menggunakan kamera eksternal (index 1)")
-        return cap_external
-    
-    # Jika tidak ada kamera eksternal, menggunakan kamera default (index 0)
-    print("Kamera eksternal tidak ditemukan, menggunakan kamera default (index 0)")
-    cap_default = cv2.VideoCapture(0)
-    if cap_default.isOpened():
-        return cap_default
-    
-    # Jika tidak ada kamera yang terdeteksi sama sekali
-    raise RuntimeError("Tidak dapat mengakses kamera")
+    # Run YOLOv8 tracking on the frame, persisting tracks between frames
+    results = model.track(img, tracker="bytetrack.yaml")
+
+    # Visualize the results on the frame
+    annotated_frame = results[0].plot()
+
+    # Return the annotated frame
+    return av.VideoFrame.from_ndarray(annotated_frame, format="bgr24")
 
 def main():
   menu=st.sidebar.radio("Pilih Mode Deteksi:", ["Gambar", "Video","Webcam"])
