@@ -14,7 +14,7 @@ import os
 #model.export(format="openvino", dynamic=True, half=True)  # creates 'yolov8n_openvino_model/'
 
 # Load the exported OpenVINO model
-model = YOLO("best_openvino_model/")
+model = YOLO("best_model_openvino_model/")
 
 def select_camera():
     # Mencari jumlah kamera yang tersedia
