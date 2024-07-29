@@ -1,3 +1,4 @@
+from streamlit_webrtc import webrtc_streamer
 import streamlit as st
 import cv2
 import ffmpeg
@@ -177,6 +178,11 @@ def main():
 
   elif menu == "Webcam":
     st.title("Deteksi dan Counting Objek Telur Ikan dengan Webcam")
+    
+      webrtc_streamer(key="sample", rtc_configuration={  # Add this config
+        "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+    })
+    '''
     run_webcam = st.checkbox('Run Webcam')
     text=""
     font = cv2.FONT_HERSHEY_SIMPLEX
@@ -211,7 +217,7 @@ def main():
             stframe.image(frame, channels="BGR", use_column_width=False, width=800)  # Width set to 600 pixels
             counts = {}  # Menginisialisasi ulang counts
         cap.release()
-
+        '''
 
 if __name__ == "__main__":
     main()
