@@ -19,18 +19,40 @@ import os
 model = YOLO("best_model_openvino_model/")
 
 # Function to process each frame of the video stream
+# Function to process each frame of the video stream
 def process_frame(frame):
     # Read image from the frame with PyAV
     img = frame.to_ndarray(format="bgr24")
+    text=""
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    font_scale = 1
+    font_color = (255, 255, 255)
+    thickness = 1
+    counts = {}
 
     # Run YOLOv8 tracking on the frame, persisting tracks between frames
-    results = model.track(img, tracker="bytetrack.yaml")
+    results = model(img)
+    for result in results:
+        boxes = result.boxes
+        for box in boxes:
+            x1, y1, x2, y2 = map(int, box.xyxy[0])  # Coordinates of bounding box
+            cls = int(box.cls[0])
+            if not cls in counts.keys():
+                counts[cls] = 1
+            else:
+                counts[cls] += 1
+            for key in counts.keys():
+                text = f"{model.names[key]}: {str(counts[key])}"
+            cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+        cv2.putText(img, text, (10, 100), font, font_scale, (0,0,0), thickness+10)
+        cv2.putText(img, text, (10, 100), font, font_scale, font_color, thickness)
 
-    # Visualize the results on the frame
-    annotated_frame = results[0].plot()
+    
+    # Display results on the frame with reduced size
+    counts = {}  # Menginisialisasi ulang counts
 
     # Return the annotated frame
-    return av.VideoFrame.from_ndarray(annotated_frame, format="bgr24")
+    return av.VideoFrame.from_ndarray(img, format="bgr24")
 
 def main():
   menu=st.sidebar.radio("Pilih Mode Deteksi:", ["Gambar", "Video","Webcam"])
@@ -184,42 +206,6 @@ def main():
                     "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
                 }
     )
-    '''
-    run_webcam = st.checkbox('Run Webcam')
-    text=""
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    font_scale = 1
-    font_color = (0, 255, 0)
-    thickness = 1
-    counts = {}
-    if run_webcam:
-        cap=select_camera()
-        stframe = st.empty()
-        while run_webcam:
-            ret, frame = cap.read()
-            if not ret:
-                st.write("Failed to capture image")
-                break
-            # Perform detection
-            results = model(frame)
-            for result in results:
-                boxes = result.boxes
-                for box in boxes:
-                    x1, y1, x2, y2 = map(int, box.xyxy[0])  # Coordinates of bounding box
-                    cls = int(box.cls[0])
-                    if not cls in counts.keys():
-                        counts[cls] = 1
-                    else:
-                        counts[cls] += 1
-                    for key in counts.keys():
-                        text = f"{model.names[key]}: {str(counts[key])}"
-                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                cv2.putText(frame, text, (10, 300), font, font_scale, font_color, thickness)
-            # Display results on the frame with reduced size
-            stframe.image(frame, channels="BGR", use_column_width=False, width=800)  # Width set to 600 pixels
-            counts = {}  # Menginisialisasi ulang counts
-        cap.release()
-        '''
 
 if __name__ == "__main__":
     main()
