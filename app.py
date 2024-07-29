@@ -175,9 +175,15 @@ def main():
   elif menu == "Webcam":
     st.title("Deteksi dan Counting Objek Telur Ikan dengan Webcam")
     
-    webrtc_streamer(key="sample", 
-                    rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
-    })
+    # Create a WebRTC video streamer with the process_frame callback
+    webrtc_streamer(key="streamer", video_frame_callback=process_frame, sendback_audio=False,
+                media_stream_constraints={"video": True, "audio": False},
+                async_processing=True,
+                mode=WebRtcMode.SENDRECV,
+                rtc_configuration={
+                    "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+                }
+    )
     '''
     run_webcam = st.checkbox('Run Webcam')
     text=""
