@@ -137,7 +137,7 @@ def main():
 
       font = cv2.FONT_HERSHEY_SIMPLEX
       font_scale = 1
-      font_color = (0, 255, 0)
+      font_color = (255, 255, 255)
       thickness = 1
       counts = {}
 
@@ -163,6 +163,7 @@ def main():
                 for key in counts.keys():
                     text = f"{model.names[key]}: {str(counts[key])}"
 
+        cv2.putText(frame, text, (10, 30), font, font_scale, (0,0,0), thickness+10)
         cv2.putText(frame, text, (10, 30), font, font_scale, font_color, thickness)
         out.write(frame)
         ret, frame = cap.read()
