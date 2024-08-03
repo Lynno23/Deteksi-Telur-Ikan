@@ -179,7 +179,7 @@ def main():
         ffmpeg
         .input(temp_output_path)
         .output(temp_final_path)
-        .run()
+        .run(overwrite_output=True)
       )
 
       # Tampilkan video hasil deteksi
