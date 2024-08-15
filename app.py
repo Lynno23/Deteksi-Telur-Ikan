@@ -31,7 +31,7 @@ def process_frame(frame):
     counts = {}
 
     # Run YOLOv8 tracking on the frame, persisting tracks between frames
-    results = model.predict(img,conf=0.1,max_det=2000)
+    results = model.predict(img,conf=0.1,max_det=3000)
     for result in results:
         boxes = result.boxes
         for box in boxes:
@@ -70,7 +70,7 @@ def main():
       st.success(f"File {uploaded_file.name} berhasil diunggah ke /uploads")
       img = cv2.imread(save_path)
       height, width, channels = img.shape
-      results = model.predict(img,conf=0.1,max_det=2000)
+      results = model.predict(img,conf=0.1,max_det=3000)
 
       font = cv2.FONT_HERSHEY_SIMPLEX
       font_scale = height / 1000.0
@@ -143,7 +143,7 @@ def main():
       counts = {}
 
       while ret:
-        results = model.predict(frame,conf=0.1,max_det=2000)[0]
+        results = model.predict(frame,conf=0.1,max_det=3000)[0]
 
         # Move the initialization of text inside the loop
         text = ""
