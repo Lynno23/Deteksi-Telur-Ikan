@@ -94,7 +94,6 @@ def main():
                 counts[cls] += 1
             for key in counts.keys():
                 text = f"{model.names[key]}: {str(counts[key])}"
-      st.write(f"Jumlah Telur Ikan Yang Terdeteksi Sebanyak: {str(counts[key])}")
                 
       cv2.putText(img, text, (10, 100), font, font_scale, (0,0,0), thickness+10)
       cv2.putText(img, text, (10, 100), font, font_scale, font_color, thickness)
@@ -109,6 +108,7 @@ def main():
 
       col2.header("Output Image")
       col2.image(temp_output_path, caption="Object Detection Result", use_column_width=True)
+      st.write(f"Jumlah Telur Ikan Yang Terdeteksi Sebanyak: {str(counts[key])}")
 
   elif menu == "Video":
     st.title("Deteksi dan Counting Objek Telur Ikan dengan Video")
