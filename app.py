@@ -175,7 +175,7 @@ def main():
       out.release()
 
       temp_final_path = '{}_fixed.mp4'.format(temp_output_path)
-      os.system(f'ffmpeg -i "{temp_output_path}" -vcodec libx264 -f mp4 "{temp_final_path}"') #local
+      os.system(f'ffmpeg -y -i "{temp_output_path}" -vcodec libx264 -f mp4 "{temp_final_path}"') #local
       #(
         #ffmpeg
         #.input(temp_output_path)
