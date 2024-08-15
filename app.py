@@ -94,7 +94,7 @@ def main():
                 counts[cls] += 1
             for key in counts.keys():
                 text = f"{model.names[key]}: {str(counts[key])}"
-            st.write(f"Jumlah Telur Ikan Yang Terdeteksi Sebanyak: {str(counts[key])}")
+      st.write(f"Jumlah Telur Ikan Yang Terdeteksi Sebanyak: {str(counts[key])}")
                 
       cv2.putText(img, text, (10, 100), font, font_scale, (0,0,0), thickness+10)
       cv2.putText(img, text, (10, 100), font, font_scale, font_color, thickness)
