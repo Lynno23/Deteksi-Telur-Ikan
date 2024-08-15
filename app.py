@@ -175,13 +175,13 @@ def main():
       out.release()
 
       temp_final_path = '{}_fixed.mp4'.format(temp_output_path)
-      #os.system(f'ffmpeg -i "{temp_output_path}" -vcodec libx264 -f mp4 "{temp_final_path}"') #local
-      (
-        ffmpeg
-        .input(temp_output_path)
-        .output(temp_final_path)
-        .run(overwrite_output=True)
-      )
+      os.system(f'ffmpeg -i "{temp_output_path}" -vcodec libx264 -f mp4 "{temp_final_path}"') #local
+      #(
+        #ffmpeg
+        #.input(temp_output_path)
+        #.output(temp_final_path)
+        #.run(overwrite_output=True)
+      #)
 
       # Tampilkan video hasil deteksi
       outvideo = open(temp_final_path, 'rb')
